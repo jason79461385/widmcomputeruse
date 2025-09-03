@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  ubuntu-desktop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ubuntu-xfce-lite
+    
+    # 僅映射 noVNC 埠口到 8081
+    ports:
+      - "127.0.0.1:8081:8081"
+    
+    # 最小環境變數
+    environment:
+      #- VNC_PASSWORD=${VNC_PASSWORD:-vncpass}
+      - USER_PASSWORD=${USER_PASSWORD:-password}
+      - SCREEN_RESOLUTION=${SCREEN_RESOLUTION:-1366x768x24}
+      - TZ=Asia/Taipei
+      - NO_PASSWORD=true
+    # 最小掛載（可選）
+    volumes:
+      - ./shared:/home/WIDM/shared:rw
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    # 瀏覽器所需的安全設定
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - seccomp:unconfined
+    
+    # 資源限制（增加以支援更多應用程式）
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '2.0'
+    
+    # 共享記憶體（增加以支援瀏覽器）
+    shm_size: 2g  # 從 1g 增加到 2g
+    
+    restart: unless-stopped
+
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    
+    # 健康檢查：首頁可回應（使用 busybox wget 方式避免安裝 curl）
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8081/ >/dev/null 2>&1 || exit 1"]
+      interval: 60s
+      timeout: 10s
+      retries: 2

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Desktop + Agent</title>
+  <link rel="stylesheet" href="/web/styles.css" />
+</head>
+<body>
+  <div id="layout">
+    <div id="left">
+      <div class="chat-header"><span>Agent Chat</span><button id="toggle-chat" class="toggle-btn" title="隱藏/顯示聊天">&#x21e4</button></div>
+      <div id="chat-log"></div>
+      <div id="chat-input">
+        <input id="msg" type="text" placeholder="輸入訊息，按 Enter 送出" />
+        <button id="send">送出</button>
+      </div>
+      <div class="cmd">
+        <input id="cmd" type="text" placeholder="輸入命令後送至容器 PTY" />
+        <button id="run">執行</button>
+        <pre id="pty-out"></pre>
+      </div>
+    </div>
+    <div id="right">
+      <iframe src="/novnc/vnc.html?autoconnect=1&resize=scale&path=websockify" title="noVNC" frameborder="0"></iframe>
+    </div>
+  </div>
+
+  <!-- 聊天關閉時顯示的浮動開啟按鈕 -->
+  <button id="open-chat" class="floating-btn" title="開啟聊天" style="display:none">&#x21e5</button>
+
+  <script src="/web/app.js"></script>
+  <noscript>需要啟用 JavaScript</noscript>
+</body>
+<!-- 其餘行為在 app.js 中 -->
+</html>
+
+
