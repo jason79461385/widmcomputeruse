@@ -56,18 +56,18 @@ RUN apt-get update \
     && pip3 install --no-cache-dir websockets \
     && rm -rf /var/lib/apt/lists/* /root/.cache/pip
 
-# # 安裝 Visual Studio Code （can Work)
-# RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/packages.microsoft.gpg \
-#     && echo "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list \
-#     && apt-get update \
-#     && apt-get install -y --no-install-recommends code \
-#     && rm -rf /var/lib/apt/lists/*
-# # 安裝 firefox (can work)
-# RUN add-apt-repository ppa:mozillateam/ppa \
-#  && apt-get update \
-#  && apt-get install -y --no-install-recommends firefox-esr \
-#  && update-alternatives --set x-www-browser /usr/bin/firefox-esr \
-#  && apt-get clean && rm -rf /var/lib/apt/lists/*
+# 安裝 Visual Studio Code （can Work)
+RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/packages.microsoft.gpg \
+    && echo "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends code \
+    && rm -rf /var/lib/apt/lists/*
+# 安裝 firefox (can work)
+RUN add-apt-repository ppa:mozillateam/ppa \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends firefox-esr \
+    && update-alternatives --set x-www-browser /usr/bin/firefox-esr \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ENV USERNAME=WIDM
 ENV HOME=/home/$USERNAME
